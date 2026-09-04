@@ -148,39 +148,91 @@ function initContactForm() {
   if (!form) return;
 
   const status = form.querySelector(".form-status");
+  const honeypot = form.querySelector("#website");
+
+  const phoneField = form.querySelector("#phone");
+  phoneField.addEventListener("input", () => {
+    const digits = phoneField.value.replace(/\D/g, "").slice(0, 10);
+    const parts = [digits.slice(0, 3), digits.slice(3, 6), digits.slice(6, 10)].filter(Boolean);
+    phoneField.value = parts.join("-");
+  });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (honeypot && honeypot.value) {
+      return;
+    }
+
     let valid = true;
+    let firstInvalidField = null;
+    const missingLabels = [];
+
+    function fieldLabel(field) {
+      const label = field.closest(".field").querySelector("label");
+      return label ? label.textContent.replace("*", "").trim() : field.name;
+    }
 
     form.querySelectorAll("[data-required]").forEach((field) => {
       const wrapper = field.closest(".field");
       const value = field.value.trim();
       let fieldValid = value.length > 0;
 
-      if (field.type === "email" && value) {
-        fieldValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      if (field.type === "tel" && value) {
+        fieldValid = /^\d{3}-\d{3}-\d{4}$/.test(value);
       }
 
       wrapper.classList.toggle("invalid", !fieldValid);
-      if (!fieldValid) valid = false;
+      if (!fieldValid) {
+        valid = false;
+        missingLabels.push(fieldLabel(field));
+        if (!firstInvalidField) firstInvalidField = field;
+      }
     });
 
+    const emailField = form.querySelector("#email");
+    const emailValue = emailField.value.trim();
+    if (emailValue) {
+      const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue);
+      emailField.closest(".field").classList.toggle("invalid", !emailValid);
+      if (!emailValid) {
+        valid = false;
+        missingLabels.push(fieldLabel(emailField));
+        if (!firstInvalidField) firstInvalidField = emailField;
+      }
+    } else {
+      emailField.closest(".field").classList.remove("invalid");
+    }
+
     if (!valid) {
-      status.textContent = "Please fix the highlighted fields and try again.";
+      status.textContent = `Please fill in: ${missingLabels.join(", ")}.`;
       status.classList.remove("success");
       status.classList.add("show");
+      firstInvalidField.focus();
+      firstInvalidField.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
 
     const name = form.querySelector("#name").value.trim();
     const email = form.querySelector("#email").value.trim();
+    const phone = form.querySelector("#phone").value.trim();
     const serviceField = form.querySelector("#service");
     const service = serviceField.options[serviceField.selectedIndex].text;
+    const budgetField = form.querySelector("#budget");
+    const budget = budgetField.value ? budgetField.options[budgetField.selectedIndex].text : "";
     const message = form.querySelector("#message").value.trim();
 
     const subject = `New enquiry from ${name}`;
-    const body = `Name: ${name}\nEmail: ${email}\nService: ${service}\n\n${message}`;
+    const bodyLines = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      phone ? `Phone: ${phone}` : null,
+      `Service: ${service}`,
+      budget ? `Budget: ${budget}` : null,
+      "",
+      message,
+    ].filter((line) => line !== null);
+    const body = bodyLines.join("\n");
     const mailtoLink = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     status.textContent = "Opening your email app to send this to Solusys Digital...";

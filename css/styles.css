@@ -396,6 +396,24 @@ section {
   z-index: 0;
 }
 
+.breadcrumbs {
+  padding-top: 24px;
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.breadcrumbs a {
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent-2);
+}
+
 .page-hero {
   padding: 150px 0 80px;
 }
@@ -987,6 +1005,14 @@ section {
   }
 }
 
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .field {
   margin-bottom: 20px;
 }
@@ -997,6 +1023,10 @@ section {
   font-weight: 600;
   margin-bottom: 8px;
   color: var(--text);
+}
+
+.required-mark {
+  color: var(--danger);
 }
 
 .field input,
@@ -1102,30 +1132,6 @@ section {
 
 .contact-value a:hover {
   color: var(--accent-2);
-}
-
-.social-links {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.social-links a {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  background: var(--bg-elevated-2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-muted);
-  transition: all 0.2s;
-}
-
-.social-links a:hover {
-  color: var(--accent-2);
-  border-color: var(--accent-2);
 }
 
 /* ==========================================================================

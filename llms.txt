@@ -1,0 +1,30 @@
+# Solusys Digital
+
+> Solusys Digital is a multi-disciplinary tech business based in Accra, Ghana, delivering graphic design, web and app development, data annotation, AI automation, CCTV installation, home and office electricals, security fencing, and home automation under one team.
+
+Solusys Digital exists to be the leading tech solution provider for businesses within Ghana, Africa, and the world at large by bringing digital solutions right where you are.
+
+## Pages
+
+- [Home](https://solusysdigital.com/): Overview of all services, stats, and featured work.
+- [Services](https://solusysdigital.com/services.html): Detailed breakdown of all eight service lines.
+- [Projects](https://solusysdigital.com/projects.html): Portfolio of completed and in-progress work by service category.
+- [About](https://solusysdigital.com/about.html): Company mission, values, team, and process.
+- [Contact](https://solusysdigital.com/contact.html): Contact form and direct contact details.
+
+## Services
+
+- Graphic Design
+- Web & App Development
+- Data Annotation
+- AI Automation
+- CCTV Installation
+- Home & Office Electricals
+- Security Fencing
+- Home Automation
+
+## Contact
+
+- Email: info@solusysdigital.com
+- Phone: 026 370 2929
+- Address: 13 Sanflo Ln, Pokuase-Amanfrom, Accra, Ghana

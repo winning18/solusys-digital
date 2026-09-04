@@ -678,13 +678,13 @@ section {
   margin-bottom: 14px;
 }
 
-.service-content .deliverables {
+.deliverables {
   margin-top: 24px;
   display: grid;
   gap: 10px;
 }
 
-.service-content .deliverables li {
+.deliverables li {
   display: flex;
   align-items: flex-start;
   gap: 10px;
@@ -692,7 +692,7 @@ section {
   color: var(--text-muted);
 }
 
-.service-content .deliverables li::before {
+.deliverables li::before {
   content: "";
   width: 6px;
   height: 6px;

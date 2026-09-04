@@ -1275,6 +1275,15 @@ section {
   color: var(--accent-2);
 }
 
+.calendly-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
 /* ==========================================================================
    Footer
    ========================================================================== */

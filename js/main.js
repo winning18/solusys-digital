@@ -142,6 +142,7 @@ function initLightbox() {
 /* Contact form validation =============================================== */
 
 const BUSINESS_EMAIL = "info@solusysdigital.com";
+const WEB3FORMS_ACCESS_KEY = "c6008d3a-efb3-4c4c-bb79-d7769f072250";
 
 function initContactForm() {
   const form = document.querySelector("#contact-form");
@@ -149,6 +150,7 @@ function initContactForm() {
 
   const status = form.querySelector(".form-status");
   const honeypot = form.querySelector("#website");
+  const submitBtn = form.querySelector('button[type="submit"]');
 
   const phoneField = form.querySelector("#phone");
   phoneField.addEventListener("input", () => {
@@ -157,7 +159,7 @@ function initContactForm() {
     phoneField.value = parts.join("-");
   });
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (honeypot && honeypot.value) {
@@ -222,22 +224,41 @@ function initContactForm() {
     const budget = budgetField.value ? budgetField.options[budgetField.selectedIndex].text : "";
     const message = form.querySelector("#message").value.trim();
 
-    const subject = `New enquiry from ${name}`;
-    const bodyLines = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      phone ? `Phone: ${phone}` : null,
-      `Service: ${service}`,
-      budget ? `Budget: ${budget}` : null,
-      "",
-      message,
-    ].filter((line) => line !== null);
-    const body = bodyLines.join("\n");
-    const mailtoLink = `mailto:${BUSINESS_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+    status.classList.remove("show", "success");
 
-    status.textContent = "Opening your email app to send this to Solusys Digital...";
-    status.classList.add("show", "success");
-    window.location.href = mailtoLink;
-    form.reset();
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: `New enquiry from ${name}`,
+          from_name: name,
+          name,
+          email,
+          phone,
+          service,
+          budget,
+          message,
+        }),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        status.textContent = "Thanks! Your message has been sent. We'll get back to you shortly.";
+        status.classList.add("show", "success");
+        form.reset();
+      } else {
+        throw new Error(result.message || "Submission failed");
+      }
+    } catch (err) {
+      status.textContent = `Something went wrong sending your message. Please email us directly at ${BUSINESS_EMAIL}.`;
+      status.classList.add("show");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Message";
+    }
   });
 }

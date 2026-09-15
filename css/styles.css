@@ -764,6 +764,19 @@ section {
   object-position: top;
 }
 
+.project-thumb.contain {
+  background: var(--bg-elevated-2);
+}
+
+.project-thumb.contain img {
+  object-fit: contain;
+  object-position: center;
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .project-body {
   padding: 26px;
 }

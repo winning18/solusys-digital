@@ -233,24 +233,28 @@ section {
 }
 
 .logo-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--gradient);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: #061019;
-  font-weight: 700;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
-.logo-full span {
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+.logo-wordmark {
+  height: 20px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .logo-mark {
+    width: 24px;
+    height: 24px;
+  }
+
+  .logo-wordmark {
+    height: 14px;
+  }
 }
 
 .nav-links {

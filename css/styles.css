@@ -176,6 +176,10 @@ section {
   white-space: nowrap;
 }
 
+.btn[hidden] {
+  display: none;
+}
+
 .btn-primary {
   background: var(--gradient);
   color: #061019;
@@ -1179,10 +1183,10 @@ section {
   margin-bottom: 20px;
 }
 
-.field label {
+.field label:not(.radio-option):not(.checkbox-option) {
   display: block;
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
   color: var(--text);
 }
@@ -1364,23 +1368,23 @@ section {
 
 .radio-group,
 .checkbox-group {
-  display: grid;
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .radio-option,
 .checkbox-option {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 0.92rem;
+  position: relative;
+  display: inline-block;
+  font-size: 0.86rem;
   color: var(--text-muted);
   cursor: pointer;
   background: var(--bg-elevated-2);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-  transition: border-color 0.2s, color 0.2s;
+  border-radius: 999px;
+  padding: 9px 16px 9px 34px;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
 .radio-option:hover,
@@ -1391,16 +1395,36 @@ section {
 
 .radio-option input,
 .checkbox-option input {
-  margin-top: 2px;
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  margin: 0;
   accent-color: var(--accent-2);
-  flex-shrink: 0;
 }
 
 .radio-option:has(input:checked),
 .checkbox-option:has(input:checked) {
   border-color: var(--accent-2);
   color: var(--text);
-  background: rgba(0, 217, 255, 0.08);
+  background: rgba(0, 217, 255, 0.1);
+}
+
+/* Options with longer sentence-length text wrap to full width instead of forcing a pill shape */
+.radio-option:has(input[data-long]),
+.checkbox-option:has(input[data-long]) {
+  display: block;
+  flex-basis: 100%;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px 12px 34px;
+}
+
+.radio-option:has(input[data-long]) input,
+.checkbox-option:has(input[data-long]) input {
+  top: 15px;
+  transform: none;
 }
 
 .conditional-field {
@@ -1423,6 +1447,45 @@ section {
 .form-nav #form-next,
 .form-nav #form-submit {
   margin-left: auto;
+}
+
+.review-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.review-section h4 {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  margin-bottom: 12px;
+}
+
+.review-row {
+  padding: 10px 0;
+}
+
+.review-label {
+  display: block;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+  margin-bottom: 4px;
+}
+
+.review-value {
+  display: block;
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.94rem;
 }
 
 /* ==========================================================================

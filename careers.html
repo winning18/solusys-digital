@@ -205,7 +205,7 @@
       <div class="section-head center reveal">
         <div class="eyebrow">// APPLY</div>
         <h2>Application form</h2>
-        <p>9 short sections. You can go back at any time before submitting.</p>
+        <p>9 short sections, plus a quick review before you submit.</p>
       </div>
 
       <form id="careers-form" class="application-form reveal" novalidate>
@@ -216,7 +216,7 @@
 
         <div class="form-progress">
           <div class="form-progress-bar"><div class="form-progress-fill" style="width: 11.11%;"></div></div>
-          <div class="form-progress-label">Step <span id="step-current">1</span> of 9</div>
+          <div class="form-progress-label">Step <span id="step-current">1</span> of <span id="step-total">10</span></div>
         </div>
 
         <!-- Step 1: Personal Information -->
@@ -347,10 +347,10 @@
           <div class="field">
             <label>Which statement best describes your approach to sales? <span class="required-mark">*</span></label>
             <div class="radio-group" data-required data-name="sales_approach">
-              <label class="radio-option"><input type="radio" name="sales_approach" value="I prefer waiting for customers to approach me." /> I prefer waiting for customers to approach me.</label>
-              <label class="radio-option"><input type="radio" name="sales_approach" value="I am comfortable approaching potential customers." /> I am comfortable approaching potential customers.</label>
-              <label class="radio-option"><input type="radio" name="sales_approach" value="I actively look for potential customers and opportunities." /> I actively look for potential customers and opportunities.</label>
-              <label class="radio-option"><input type="radio" name="sales_approach" value="I enjoy starting conversations with people and identifying their needs." /> I enjoy starting conversations with people and identifying their needs.</label>
+              <label class="radio-option"><input type="radio" name="sales_approach" value="I prefer waiting for customers to approach me." data-long /> I prefer waiting for customers to approach me.</label>
+              <label class="radio-option"><input type="radio" name="sales_approach" value="I am comfortable approaching potential customers." data-long /> I am comfortable approaching potential customers.</label>
+              <label class="radio-option"><input type="radio" name="sales_approach" value="I actively look for potential customers and opportunities." data-long /> I actively look for potential customers and opportunities.</label>
+              <label class="radio-option"><input type="radio" name="sales_approach" value="I enjoy starting conversations with people and identifying their needs." data-long /> I enjoy starting conversations with people and identifying their needs.</label>
             </div>
           </div>
         </div>
@@ -454,11 +454,11 @@
         <div class="form-step" data-step="8" hidden>
           <h3>CV &amp; Supporting Information</h3>
           <div class="field">
-            <label>Upload your CV <span class="required-mark">*</span> <span class="field-hint">(PDF, DOC, or DOCX, max 5MB)</span></label>
+            <label>Upload your CV <span class="required-mark">*</span> <span class="field-hint">(PDF, DOC, or DOCX, max 3MB)</span></label>
             <input type="file" name="cv" accept=".pdf,.doc,.docx" data-required />
           </div>
           <div class="field">
-            <label>Portrait Photograph <span class="required-mark">*</span> <span class="field-hint">(JPG or PNG, max 5MB)</span></label>
+            <label>Portrait Photograph <span class="required-mark">*</span> <span class="field-hint">(JPG or PNG, max 2MB)</span></label>
             <input type="file" name="portrait_photo" accept=".jpg,.jpeg,.png" data-required />
           </div>
           <div class="field">
@@ -500,10 +500,17 @@
           </div>
           <div class="field">
             <label class="checkbox-option">
-              <input type="checkbox" name="declaration" value="Confirmed" data-required />
+              <input type="checkbox" name="declaration" value="Confirmed" data-required data-long />
               I confirm that the information provided in this application is accurate and complete to the best of my knowledge. <span class="required-mark">*</span>
             </label>
           </div>
+        </div>
+
+        <!-- Step 10: Review -->
+        <div class="form-step" data-step="10" hidden>
+          <h3>Review your application</h3>
+          <p style="margin-bottom:24px;">Check your answers below. Use Back to make changes, or submit when you're ready.</p>
+          <div id="review-content"></div>
         </div>
 
         <div class="form-nav">

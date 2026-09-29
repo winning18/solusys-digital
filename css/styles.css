@@ -1306,6 +1306,202 @@ section {
 }
 
 /* ==========================================================================
+   Careers / application form
+   ========================================================================== */
+
+.application-form {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+}
+
+@media (max-width: 640px) {
+  .application-form {
+    padding: 28px 20px;
+  }
+}
+
+.form-progress {
+  margin-bottom: 32px;
+}
+
+.form-progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--bg-elevated-2);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.form-progress-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 999px;
+  transition: width 0.3s var(--ease);
+}
+
+.form-progress-label {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+}
+
+.form-step h3 {
+  margin-bottom: 24px;
+  font-size: 1.3rem;
+}
+
+.field-hint {
+  font-weight: 400;
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+
+.radio-group,
+.checkbox-group {
+  display: grid;
+  gap: 10px;
+}
+
+.radio-option,
+.checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: var(--bg-elevated-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.radio-option:hover,
+.checkbox-option:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.radio-option input,
+.checkbox-option input {
+  margin-top: 2px;
+  accent-color: var(--accent-2);
+  flex-shrink: 0;
+}
+
+.radio-option:has(input:checked),
+.checkbox-option:has(input:checked) {
+  border-color: var(--accent-2);
+  color: var(--text);
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.conditional-field {
+  margin-top: -8px;
+  padding-left: 4px;
+  border-left: 2px solid var(--border-strong);
+}
+
+.form-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.form-nav .btn {
+  min-width: 120px;
+}
+
+.form-nav #form-next,
+.form-nav #form-submit {
+  margin-left: auto;
+}
+
+/* ==========================================================================
+   Hiring banner
+   ========================================================================== */
+
+.hiring-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: var(--bg-elevated);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.hiring-banner:hover {
+  border-color: var(--accent-2);
+  transform: translateY(-2px);
+}
+
+.hiring-banner-text h3 {
+  margin: 10px 0 6px;
+  font-size: 1.2rem;
+}
+
+.hiring-banner-text p {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.hiring-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent-2);
+}
+
+.hiring-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-2);
+  box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.6);
+  animation: hiring-pulse 2s infinite;
+}
+
+@keyframes hiring-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 217, 255, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(0, 217, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 217, 255, 0);
+  }
+}
+
+@media (max-width: 640px) {
+  .hiring-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hiring-banner .btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 

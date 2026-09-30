@@ -1440,6 +1440,10 @@ section {
   margin-top: 32px;
 }
 
+.form-nav[hidden] {
+  display: none;
+}
+
 .form-nav .btn {
   min-width: 120px;
 }

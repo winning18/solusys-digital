@@ -208,10 +208,13 @@
         <p>9 short sections, plus a quick review before you submit.</p>
       </div>
 
-      <form id="careers-form" class="application-form reveal" novalidate>
+      <form id="careers-form" class="application-form reveal" novalidate action="https://formsubmit.co/info@solusysdigital.com" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="_subject" value="New Careers Application: Sales &amp; Business Development Executive" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_next" value="https://solusysdigital.com/careers.html?submitted=1#apply" />
         <div class="hp-field" aria-hidden="true">
           <label for="career-website">Website</label>
-          <input type="text" id="career-website" name="website" tabindex="-1" autocomplete="off" />
+          <input type="text" id="career-website" name="_honey" tabindex="-1" autocomplete="off" />
         </div>
 
         <div class="form-progress">
@@ -454,11 +457,11 @@
         <div class="form-step" data-step="8" hidden>
           <h3>CV &amp; Supporting Information</h3>
           <div class="field">
-            <label>Upload your CV <span class="required-mark">*</span> <span class="field-hint">(PDF, DOC, or DOCX, max 3MB)</span></label>
+            <label>Upload your CV <span class="required-mark">*</span> <span class="field-hint">(PDF, DOC, or DOCX, max 5MB)</span></label>
             <input type="file" name="cv" accept=".pdf,.doc,.docx" data-required />
           </div>
           <div class="field">
-            <label>Portrait Photograph <span class="required-mark">*</span> <span class="field-hint">(JPG or PNG, max 2MB)</span></label>
+            <label>Portrait Photograph <span class="required-mark">*</span> <span class="field-hint">(JPG or PNG, max 4MB)</span></label>
             <input type="file" name="portrait_photo" accept=".jpg,.jpeg,.png" data-required />
           </div>
           <div class="field">

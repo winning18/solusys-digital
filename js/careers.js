@@ -1,7 +1,5 @@
 // Solusys Digital: careers application form (multi-step)
 
-const CAREERS_WEB3FORMS_KEY = "c6008d3a-efb3-4c4c-bb79-d7769f072250";
-
 document.addEventListener("DOMContentLoaded", () => {
   initCareersForm();
 });
@@ -9,6 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function initCareersForm() {
   const form = document.querySelector("#careers-form");
   if (!form) return;
+
+  if (new URLSearchParams(window.location.search).get("submitted") === "1") {
+    form.querySelectorAll(".form-step, .form-nav, .form-progress").forEach((el) => (el.hidden = true));
+    const status = form.querySelector(".form-status");
+    status.textContent = "Thanks for applying! We've received your application and will be in touch if you're shortlisted.";
+    status.classList.add("show", "success");
+    return;
+  }
 
   const steps = Array.from(form.querySelectorAll(".form-step"));
   const totalSteps = steps.length;
@@ -20,7 +26,7 @@ function initCareersForm() {
   const stepCurrentLabel = form.querySelector("#step-current");
   const stepTotalLabel = form.querySelector("#step-total");
   const reviewContent = form.querySelector("#review-content");
-  const honeypot = form.querySelector('input[name="website"]');
+  const honeypot = form.querySelector('input[name="_honey"]');
 
   if (stepTotalLabel) stepTotalLabel.textContent = String(totalSteps);
 
@@ -210,45 +216,25 @@ function initCareersForm() {
     });
   }
 
-  enforceFileSize("cv", 3 * 1024 * 1024, "CV");
-  enforceFileSize("portrait_photo", 2 * 1024 * 1024, "Portrait photo");
+  enforceFileSize("cv", 5 * 1024 * 1024, "CV");
+  enforceFileSize("portrait_photo", 4 * 1024 * 1024, "Portrait photo");
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    if (honeypot && honeypot.value) return;
-    if (!validateStep(currentStep)) return;
+  // Native form submission (required for file attachments to reach FormSubmit.co;
+  // their AJAX endpoint does not support uploads). A successful submission
+  // navigates away and FormSubmit redirects back via the _next field.
+  form.addEventListener("submit", (e) => {
+    if (honeypot && honeypot.value) {
+      e.preventDefault();
+      return;
+    }
+    if (!validateStep(currentStep)) {
+      e.preventDefault();
+      return;
+    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
     status.classList.remove("show", "success");
-
-    try {
-      const formData = new FormData(form);
-      formData.delete("website");
-      formData.append("access_key", CAREERS_WEB3FORMS_KEY);
-      formData.append("subject", `New job application: ${form.querySelector('[name="full_name"]').value}`);
-      formData.append("from_name", form.querySelector('[name="full_name"]').value);
-
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData,
-      });
-      const result = await response.json();
-
-      if (result.success) {
-        form.querySelectorAll(".form-step, .form-nav, .form-progress").forEach((el) => (el.hidden = true));
-        status.textContent = "Thanks for applying! We've received your application and will be in touch if you're shortlisted.";
-        status.classList.add("show", "success");
-      } else {
-        throw new Error(result.message || "Submission failed");
-      }
-    } catch (err) {
-      status.textContent = `Something went wrong sending your application (${err.message}). Please email your CV, photo, and answers directly to info@solusysdigital.com.`;
-      status.classList.add("show");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Submit Application";
-    }
   });
 
   showStep(1, false);

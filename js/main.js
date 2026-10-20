@@ -5,7 +5,17 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollReveal();
   initLightbox();
   initContactForm();
+  initScrollProgress();
+  initHeaderScroll();
+  initHeroParallax();
+  initMagneticButtons();
+  initCardSpotlight();
+  initStatCounters();
+  initFaqAccordion();
 });
+
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
 
 /* Mobile nav toggle ================================================== */
 
@@ -35,6 +45,16 @@ function initScrollReveal() {
   const items = document.querySelectorAll(".reveal");
   if (!items.length) return;
 
+  // Stagger siblings that reveal together inside the same grid, so a row of
+  // cards cascades in instead of popping in all at once.
+  items.forEach((el) => {
+    const siblings = el.parentElement ? Array.from(el.parentElement.children).filter((c) => c.classList.contains("reveal")) : [];
+    const index = siblings.indexOf(el);
+    if (index > 0) {
+      el.style.transitionDelay = `${Math.min(index * 70, 420)}ms`;
+    }
+  });
+
   if (!("IntersectionObserver" in window)) {
     items.forEach((el) => el.classList.add("in-view"));
     return;
@@ -53,6 +73,214 @@ function initScrollReveal() {
   );
 
   items.forEach((el) => observer.observe(el));
+}
+
+/* Scroll progress bar ==================================================== */
+
+function initScrollProgress() {
+  const bar = document.querySelector(".scroll-progress");
+  if (!bar) return;
+
+  let ticking = false;
+
+  function update() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = `${progress}%`;
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  update();
+}
+
+/* Header: background/shadow once scrolled ================================ */
+
+function initHeaderScroll() {
+  const header = document.querySelector(".site-header");
+  if (!header) return;
+
+  function update() {
+    header.classList.toggle("scrolled", window.scrollY > 40);
+  }
+
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+}
+
+/* Hero: subtle parallax drift on the grid texture ========================= */
+
+function initHeroParallax() {
+  if (prefersReducedMotion) return;
+  const hero = document.querySelector(".hero");
+  const texture = hero ? hero.querySelector(".grid-texture") : null;
+  if (!hero || !texture) return;
+
+  let ticking = false;
+
+  function update() {
+    const rect = hero.getBoundingClientRect();
+    if (rect.bottom > 0 && rect.top < window.innerHeight) {
+      texture.style.transform = `translate3d(0, ${rect.top * -0.08}px, 0)`;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+
+  update();
+}
+
+/* Magnetic buttons ========================================================= */
+
+function initMagneticButtons() {
+  if (prefersReducedMotion || !hasFinePointer) return;
+  const buttons = document.querySelectorAll(".btn");
+  if (!buttons.length) return;
+
+  const strength = 0.25;
+  const maxOffset = 8;
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("mousemove", (e) => {
+      const rect = btn.getBoundingClientRect();
+      const relX = e.clientX - (rect.left + rect.width / 2);
+      const relY = e.clientY - (rect.top + rect.height / 2);
+      const x = Math.max(-maxOffset, Math.min(maxOffset, relX * strength));
+      const y = Math.max(-maxOffset, Math.min(maxOffset, relY * strength));
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    btn.addEventListener("mouseleave", () => {
+      btn.style.transform = "";
+    });
+  });
+}
+
+/* Card spotlight: cursor-tracked gradient border =========================== */
+
+function initCardSpotlight() {
+  if (!hasFinePointer) return;
+  const cards = document.querySelectorAll(".card");
+  if (!cards.length) return;
+
+  cards.forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+      card.style.setProperty("--my", `${e.clientY - rect.top}px`);
+    });
+  });
+}
+
+/* Stats: count up when scrolled into view ================================= */
+
+function initStatCounters() {
+  const values = document.querySelectorAll(".stats .stat-value");
+  if (!values.length) return;
+
+  function animateValue(el) {
+    const raw = el.textContent.trim();
+    const match = raw.match(/^(\d+)(.*)$/);
+    if (!match) return;
+
+    const target = parseInt(match[1], 10);
+    const suffix = match[2];
+
+    if (prefersReducedMotion) {
+      el.textContent = `${target}${suffix}`;
+      return;
+    }
+
+    const duration = 1200;
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - elapsed, 3);
+      const current = Math.round(target * eased);
+      el.textContent = `${current}${suffix}`;
+      if (elapsed < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    values.forEach(animateValue);
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          animateValue(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.5 }
+  );
+
+  values.forEach((el) => observer.observe(el));
+}
+
+/* FAQ accordion: animated open/close instead of the native jump ===========
+   <details> content is forced display:none by the browser whenever the
+   `open` attribute is absent, no author CSS can override that. So closing
+   has to happen in two steps: remove the `.open` class first (animates the
+   content closed while `open` is still present and content still rendered),
+   then remove the `open` attribute once that transition finishes. */
+
+function initFaqAccordion() {
+  const items = document.querySelectorAll(".faq-item");
+  if (!items.length) return;
+
+  items.forEach((item) => {
+    const summary = item.querySelector("summary");
+    const answer = item.querySelector("p");
+    if (!summary || !answer) return;
+
+    summary.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      if (item.open) {
+        item.classList.remove("open");
+        const onEnd = (ev) => {
+          if (ev.target !== answer) return;
+          item.open = false;
+          answer.removeEventListener("transitionend", onEnd);
+        };
+        answer.addEventListener("transitionend", onEnd);
+      } else {
+        item.open = true;
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => item.classList.add("open"));
+        });
+      }
+    });
+  });
 }
 
 /* Lightbox ================================================================ */

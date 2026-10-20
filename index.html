@@ -174,6 +174,36 @@
 </head>
 <body>
 
+<div class="preloader" id="preloader">
+  <div class="preloader-top">// SOLUSYS DIGITAL</div>
+  <div class="preloader-word" id="preloader-word">Design</div>
+  <div class="preloader-count" id="preloader-count">0</div>
+  <div class="preloader-bar"><div class="preloader-bar-fill" id="preloader-bar-fill"></div></div>
+</div>
+<script>
+  // Synchronous, runs before paint: skip the preloader entirely on repeat
+  // views this session so it doesn't replay on every page/navigation.
+  (function () {
+    try {
+      if (sessionStorage.getItem("solusys-visited")) {
+        document.getElementById("preloader").style.display = "none";
+      } else {
+        document.documentElement.classList.add("is-preloading");
+      }
+    } catch (e) {}
+  })();
+</script>
+<noscript>
+  <style>
+    .preloader, .hero-float-stack, .hero-work-card { display: none !important; }
+    .hero-inner > * { opacity: 1 !important; transform: none !important; }
+  </style>
+</noscript>
+
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+<div class="cursor-glow" id="cursor-glow"></div>
+
 <div class="scroll-progress"></div>
 
 <header class="site-header">
@@ -205,6 +235,13 @@
     <div class="hero-aurora"></div>
     <div class="hero-glow"></div>
     <div class="grid-texture"></div>
+
+    <div class="hero-float-stack" aria-hidden="true">
+      <div class="hero-float-card card-c"><img src="assets/projects/yesmyshawarma.webp" alt="" loading="lazy" /></div>
+      <div class="hero-float-card card-b"><img src="assets/projects/artifactory.webp" alt="" loading="lazy" /></div>
+      <div class="hero-float-card card-a"><img src="assets/projects/nkaconsult.webp" alt="" loading="lazy" /></div>
+    </div>
+
     <div class="container hero-inner">
       <div class="eyebrow">// SOLUSYS DIGITAL</div>
       <h1>Engineering the systems behind modern business.</h1>
@@ -212,6 +249,46 @@
       <div class="hero-actions">
         <a href="contact.html" class="btn btn-primary">Get a Quote</a>
         <a href="projects.html" class="btn btn-ghost">See Our Work</a>
+      </div>
+      <div class="hero-tags">
+        <span class="hero-tag">Graphic Design</span>
+        <span class="hero-tag">Web &amp; App Development</span>
+        <span class="hero-tag">Data Annotation</span>
+        <span class="hero-tag">AI Automation</span>
+        <span class="hero-tag">CCTV Installation</span>
+        <span class="hero-tag">Electricals</span>
+        <span class="hero-tag">Security Fencing</span>
+        <span class="hero-tag">Home Automation</span>
+      </div>
+    </div>
+
+    <div class="hero-work-card" id="hero-work-card">
+      <div class="hero-work-card-inner">
+        <span class="hero-work-label">Recent Work</span>
+        <div class="hero-work-slides" id="hero-work-slides">
+          <div class="hero-work-slide active">
+            <img src="assets/projects/nkaconsult.webp" alt="" loading="lazy" />
+            <div>
+              <h4>NKA Consult</h4>
+              <p>Web &amp; App Development</p>
+            </div>
+          </div>
+          <div class="hero-work-slide">
+            <img src="assets/projects/yesmyshawarma.webp" alt="" loading="lazy" />
+            <div>
+              <h4>Yes My Shawarma</h4>
+              <p>Web &amp; App Development</p>
+            </div>
+          </div>
+          <div class="hero-work-slide">
+            <img src="assets/projects/artifactory.webp" alt="" loading="lazy" />
+            <div>
+              <h4>Artifactory Designs</h4>
+              <p>Web &amp; App Development</p>
+            </div>
+          </div>
+        </div>
+        <div class="hero-work-dots" id="hero-work-dots"></div>
       </div>
     </div>
   </section>
@@ -560,6 +637,8 @@
   <svg viewBox="0 0 32 32" fill="currentColor" width="28" height="28"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.34.687 4.523 1.875 6.355L4 29l7.822-1.842A11.94 11.94 0 0 0 16.001 27C22.628 27 28 21.627 28 15S22.628 3 16.001 3zm0 21.818a9.77 9.77 0 0 1-4.98-1.363l-.357-.213-4.64 1.093 1.12-4.522-.232-.37A9.78 9.78 0 0 1 5.182 15c0-5.966 4.853-10.818 10.819-10.818S26.818 9.034 26.818 15 21.966 24.818 16.001 24.818zm5.539-8.147c-.303-.152-1.792-.884-2.07-.985-.278-.101-.48-.152-.682.152-.202.303-.783.985-.96 1.187-.176.202-.353.227-.656.076-.303-.152-1.279-.471-2.436-1.503-.9-.803-1.508-1.796-1.685-2.099-.176-.303-.019-.467.133-.618.136-.136.303-.353.454-.53.152-.176.202-.303.303-.505.101-.202.05-.379-.025-.53-.076-.152-.682-1.646-.934-2.254-.246-.591-.497-.511-.682-.52l-.581-.01c-.202 0-.53.076-.808.379-.278.303-1.06 1.037-1.06 2.53s1.086 2.936 1.238 3.139c.152.202 2.138 3.266 5.181 4.579.724.312 1.289.499 1.729.639.727.231 1.389.198 1.912.12.583-.087 1.792-.733 2.045-1.44.253-.708.253-1.314.177-1.44-.076-.126-.278-.202-.581-.353z"/></svg>
 </a>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrollTrigger.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

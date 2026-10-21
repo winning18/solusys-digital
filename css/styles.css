@@ -1164,6 +1164,76 @@ section {
   color: var(--text-faint);
 }
 
+/* Testimonial carousel ===================================================== */
+
+.testimonial-viewport {
+  overflow: hidden;
+  padding: 0 24px;
+  margin: 0 auto;
+  max-width: var(--container);
+}
+
+.testimonial-track {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  gap: 24px;
+  transition: transform 0.6s var(--ease);
+}
+
+.testimonial-slide {
+  flex: 0 0 calc((100% - 48px) / 3);
+  min-width: 0;
+  display: flex;
+}
+
+.testimonial-slide .testimonial-card {
+  width: 100%;
+}
+
+@media (max-width: 960px) {
+  .testimonial-slide {
+    flex: 0 0 calc((100% - 24px) / 2);
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonial-slide {
+    flex: 0 0 100%;
+  }
+}
+
+.testimonial-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.testimonial-nav-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+
+.testimonial-nav-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.testimonial-nav-btn:hover {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+}
+
 /* ==========================================================================
    FAQ
    ========================================================================== */

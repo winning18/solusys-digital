@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initCardSpotlight();
   initStatCounters();
   initFaqAccordion();
+  initTestimonialCarousel();
 });
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -366,6 +367,64 @@ function initHeroWorkCarousel() {
     dots[next].classList.add("active");
     active = next;
   }, 3200);
+}
+
+/* Testimonials: auto-advancing carousel ==================================== */
+
+function initTestimonialCarousel() {
+  const track = document.getElementById("testimonial-track");
+  const prevBtn = document.getElementById("testimonial-prev");
+  const nextBtn = document.getElementById("testimonial-next");
+  if (!track || !prevBtn || !nextBtn) return;
+
+  const slides = Array.from(track.children);
+  if (!slides.length) return;
+
+  let index = 0;
+  let autoplayTimer = null;
+
+  function goTo(newIndex) {
+    index = (newIndex + slides.length) % slides.length;
+    const offset = slides[index].offsetLeft;
+    track.style.transform = `translateX(-${offset}px)`;
+  }
+
+  function next() {
+    goTo(index + 1);
+  }
+
+  function prev() {
+    goTo(index - 1);
+  }
+
+  function stopAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+    autoplayTimer = null;
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (prefersReducedMotion) return;
+    autoplayTimer = setInterval(next, 4500);
+  }
+
+  nextBtn.addEventListener("click", () => {
+    next();
+    startAutoplay();
+  });
+  prevBtn.addEventListener("click", () => {
+    prev();
+    startAutoplay();
+  });
+
+  const viewport = track.parentElement;
+  viewport.addEventListener("mouseenter", stopAutoplay);
+  viewport.addEventListener("mouseleave", startAutoplay);
+
+  window.addEventListener("resize", () => goTo(index));
+
+  goTo(0);
+  startAutoplay();
 }
 
 /* Magnetic buttons ========================================================= */
